@@ -1,5 +1,4 @@
-Resonance Compensation
-====================
+# Resonance Compensation
 
 Klipper has support of several features that can be used to reduce ringing in
 prints: Input Shaping and adaptive S-Curve acceleration. Ringing (also known
@@ -29,8 +28,7 @@ can be from negligible to 20-30% and more. On the other hand, the same level of
 improvements usually cannot be obtained just by reducing the acceleration.
 
 
-Switch to S-Curve acceleration branch
-===========================
+## Switch to S-Curve acceleration branch
 
 Instructions below assume that you have an existing Klipper installation
 from the main repo. If you don't, follow the
@@ -97,8 +95,7 @@ $ git checkout s-curve-exp/scurve-shaping
 $ sudo service klipper start
 ```
 
-Tuning
-===========================
+### Tuning
 
 Basic tuning requires measuring the ringing frequencies of the printer and
 adding a few parameters to `printer.cfg` file.
@@ -118,7 +115,7 @@ Slice the ringing test model, which can be found in
    not a mistake. The marks can be used later in the tuning process as a
    reference, because they show which axis the measurements correspond to.
 
-## Ringing frequency
+### Ringing frequency
 
 First, measure the **ringing frequency**. Note that these measurements can also
 be done on the mainline Klipper branch before switching to the S-Curve branch.
@@ -205,7 +202,7 @@ for example:
 If such changes are made, it is a good idea to at least measure the ringing
 frequencies to see if they have changed.
 
-## Input shaper configuration
+### Input shaper configuration
 
 After the ringing frequencies for X and Y axes are measured, you can add the
 following section to your `printer.cfg`:
@@ -217,7 +214,7 @@ shaper_freq_y: ...  # frequency for the Y mark of the test model
 
 For the example above, we get shaper_freq_x/y = 49.4.
 
-## Choosing input shaper
+### Choosing input shaper
 
 Klipper supports several input shapers. They differ in their sensitivity to
 errors determining the resonance frequency and how much smoothing they cause
@@ -281,7 +278,7 @@ A few notes on shaper selection:
     `SET_INPUT_SHAPER SHAPER_TYPE=2HUMP_EI`), but check the considerations in
     the [section below](#selecting-max_accel) before enabling it.
 
-## Selecting max_accel
+### Selecting max_accel
 
 You should have a printed test for the shaper you chose from the previous step
 (if you don't, print the test model sliced with the
@@ -359,7 +356,7 @@ As `min_accel` choose the value of acceleration from the test model when there i
 still no ringing visible. The tuning is complete.
 
 
-## Fine-tuning resonance frequencies
+### Fine-tuning resonance frequencies
 
 Note that the precision of the resonance frequencies measurements using the
 ringing test model is sufficient for most purposes, so further tuning is not
@@ -412,7 +409,7 @@ new `shaper_freq_x` and `shaper_freq_y` values.
 Do not forget to revert the changes to `max_accel` and `max_accel_to_decel`
 parameters in the `printer.cfg` after finishing this section.
 
-## Pressure Advance
+### Pressure Advance
 
 If you use Pressure Advance, it may need to be re-tuned. Follow the
 [instructions](Pressure_Advance.md#tuning-pressure-advance) to find the
@@ -425,8 +422,7 @@ means that the pressure advance value is too high for the corresponding
 acceleration. You can either reduce `max_accel` setting, or reduce `min_accel`
 value in `[scurve]` section.
 
-
-## Unreliable measurements of ringing frequencies
+### Unreliable measurements of ringing frequencies
 
 If you are unable to measure the ringing frequencies, e.g. if the distance
 between the oscillations is not stable, you may still be able to take advantage
@@ -498,8 +494,7 @@ shaper_type: 2hump_ei
 Continue the tuning with [Selecting max_accel](#selecting-max_accel) section.
 
 
-Troubleshooting and FAQ
-=======================
+## Troubleshooting and FAQ
 
 ### I cannot get reliable measurements of resonance frequencies
 
@@ -556,10 +551,9 @@ the same print with the same `max_accel`, but with `scurve` enabled will take
 longer to print. However, S-Curve may allow one to set higher `max_accel`
 value, thus reducing the time penalty.
 
-Technical details
-=================
+## Technical details
 
-## Input shapers
+### Input shapers
 
 Input shapers used in Klipper are rather standard, and one can find more
 in-depth overview in the articles describing the corresponding shapers.
